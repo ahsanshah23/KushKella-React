@@ -14,9 +14,9 @@ class view1099list extends React.Component {
 
             id: "",
             title: "",
-            leader_email: "", 
+            leader_email: "",
             forms1040: [],
-            leader:""
+            leader: ""
 
         };
     }
@@ -40,28 +40,29 @@ class view1099list extends React.Component {
         })
         AsyncStorage.removeItem('id1040');
 
-        await fetch('http://'+ip+'/formviewlist?PhoneID=' + Device.osBuildId + '&FormID=2&ID1040=' + this.state.ID1040 + '')
+        await fetch('http://' + ip + '/formviewlist?PhoneID=' + Device.osBuildId + '&FormID=2&ID1040=' + this.state.ID1040 + '')
             .then(res => res.json())
 
             .then(res => {
 
-                if(res==undefined)
-                {
+                if (res == undefined) {
                     this.setState({
                         spinner: false
                     });
                     Alert("No Forms Found! ");
                 }
-                else{
+                else {
                     res.map((element) => {
                         const formsObj = {};
-                       
+
                         formsObj.id = element.id;
                         formsObj.PhoneID = element.PhoneID;
-    
+                        formsObj.totalincome = element.totalincome;
+                        formsObj.totaltaxespaid = element.totaltaxespaid;
+
                         forms.push(formsObj);
                     });
-    
+
                     this.setState({ forms1040: forms });
                     this.setState({
                         spinner: false
@@ -79,7 +80,7 @@ class view1099list extends React.Component {
     }
 
     render() {
-        const{leader} = this.state;
+        const { leader } = this.state;
 
         return (
             <Block>
@@ -91,23 +92,40 @@ class view1099list extends React.Component {
                 <ScrollView>
 
                     {this.state.forms1040.map((item, key) => (
-                        
-                        <TouchableOpacity  style={[styles.card, { backgroundColor: '#008080' }]} onPress={() => {
-                            AsyncStorage.setItem('id', (item.id).toString());
-                            this.props.navigation.navigate("viewW2");
-                            
-                        }}>
+
+                        <Block style={[styles.card, { backgroundColor: '#778899' }]}
+                        //  onPress={() => {
+                        //     AsyncStorage.setItem('id', (item.id).toString());
+                        //     this.props.navigation.navigate("viewW2");
+                        // }}
+                        >
                             <View style={styles.cardHeader}>
-                                <Text style={styles.title}>ID: {item.id}</Text>
-                                <Image style={styles.icon} source={{ uri: "https://img.icons8.com/ios/40/000000/settings.png" }} />
+                                <Text
+                                    h5
+                                    style={{
+                                        color: 'white',
+                                        fontFamily: 'montserrat-regular',
+                                        marginBottom: theme.SIZES.BASE / 2
+                                    }}
+                                    onPress={() => {
+                                        AsyncStorage.setItem('id1040', this.state.FormID.toString());
+                                        this.props.navigation.navigate("view1099list");
+
+                                    }}
+                                >
+                                    Form W2 #: {key + 1}
+                                </Text>
                             </View>
 
-                          
+
                             <View style={styles.cardFooter}>
 
                                 <Text key={key} style={styles.subTitle}>Phone ID: {item.PhoneID}</Text>
+                                <Text key={key} style={styles.subTitle}>Total Income: {item.totalincome}</Text>
+                                <Text key={key} style={styles.subTitle}>Total Taxes Paid: {item.totaltaxespaid}</Text>
+
                             </View>
-                        </TouchableOpacity>
+                        </Block>
                     )
                     )}
 
@@ -120,10 +138,12 @@ class view1099list extends React.Component {
 
 const styles = StyleSheet.create({
     card: {
-        marginHorizontal: 2,
+        flexDirection: 'column',
+        marginHorizontal: 10,
         marginVertical: 2,
-        flexBasis: '48%',
-        marginTop: 10
+        flexBasis: '27%',
+        marginTop: 20,
+        borderRadius: 10
     },
     container: {
         flex: 1,
@@ -139,7 +159,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     cardFooter: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         paddingTop: 12.5,
         paddingBottom: 25,
@@ -159,6 +179,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     subTitle: {
+        paddingVertical: 10,
         fontFamily: 'montserrat-regular',
         fontSize: 16,
         flex: 1,

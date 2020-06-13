@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, ScrollView, CheckBox, TextInput, AsyncStorage, Picker } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ScrollView, CheckBox, TextInput, AsyncStorage, Picker } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 var FloatingLabel = require('react-native-floating-labels');
 import { nowTheme } from '../constants';
@@ -17,7 +17,7 @@ class view1040 extends React.Component {
             TotalTaxesPaid: "",
             TotalTaxLiability: "",
             TaxDifference: "",
-            FormID:0
+            FormID: 0
         };
     }
 
@@ -58,7 +58,7 @@ class view1040 extends React.Component {
                 console.warn(error)
             });
 
-            console.warn(Device.osBuildId)
+        console.warn(Device.osBuildId)
 
         await fetch('http://192.168.0.90:3006/formcount?PhoneID=' + Device.osBuildId + '&FormID=1&ID1040=' + this.state.FormID + ' ')
             .then(res => res.json())
@@ -76,7 +76,7 @@ class view1040 extends React.Component {
                 console.warn(error)
             });
 
-            await fetch('http://192.168.0.90:3006/formcount?PhoneID=' + Device.osBuildId + '&FormID=2&ID1040=' + this.state.FormID + ' ')
+        await fetch('http://192.168.0.90:3006/formcount?PhoneID=' + Device.osBuildId + '&FormID=2&ID1040=' + this.state.FormID + ' ')
             .then(res => res.json())
 
             .then(res => {
@@ -260,44 +260,71 @@ class view1040 extends React.Component {
     };
 
     renderCounts = () => {
+
         return (
             <Block flex style={styles.group}>
-                <Block style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: theme.SIZES.BASE }}>
+
+                <TouchableOpacity style={[styles.card, { backgroundColor: '#778899' }]} >
+                    <View style={styles.cardHeader}>
+                        <Text
+                            h5
+                            style={{
+                                color: 'white',
+                                fontFamily: 'montserrat-regular',
+                                marginBottom: theme.SIZES.BASE / 2
+                            }}
+                            color={nowTheme.COLORS.HEADER}
+                            onPress={() => {
+                                AsyncStorage.setItem('id1040', this.state.FormID.toString());
+                                this.props.navigation.navigate("view1099list");
+
+                            }}
+                        >
+                            Forms Computed:
+                        </Text>
+                    </View>
 
 
-                    <Text
-                        h5
-                        style={{
-                            fontFamily: 'montserrat-regular',
-                            marginBottom: theme.SIZES.BASE / 2
-                        }}
-                        color={nowTheme.COLORS.HEADER}
-                        onPress={() => {
-                            AsyncStorage.setItem('id1040', this.state.FormID.toString());
-                            this.props.navigation.navigate("view1099list");
-            
-                          }}
-                    >
-                        1099 Form: {this.state.count1099}
-                    </Text>
+                    <View style={styles.cardFooter}>
+                        <Text
+                            p
+                            style={{
+                                color: '#000080',
+                                fontFamily: 'montserrat-regular',
+                                marginBottom: theme.SIZES.BASE / 2,
+                                marginTop: '2.5%'
+                            }}
+                            onPress={() => {
+                                AsyncStorage.setItem('id1040', this.state.FormID.toString());
+                                this.props.navigation.navigate("view1099list");
 
-                    <Text
-                        h5
-                        style={{
-                            fontFamily: 'montserrat-regular',
-                            marginBottom: theme.SIZES.BASE / 2
-                        }}
-                        color={nowTheme.COLORS.HEADER}
-                        onPress={() => {
-                            AsyncStorage.setItem('id1040', this.state.FormID.toString());
-                            this.props.navigation.navigate("viewW2list");
-            
-                          }}
-                    >
-                        W2 Form: {this.state.countW2}
-                    </Text>
+                            }}
+                            color={nowTheme.COLORS.HEADER}
+                        >
+                            1099 Form: {this.state.count1099}
+                        </Text>
 
-                </Block>
+                        <Text
+                            p
+                            style={{
+                                color: '#000080',
+                                fontFamily: 'montserrat-regular',
+                                marginBottom: theme.SIZES.BASE / 2,
+                                marginTop: '2.5%'
+                            }}
+                            onPress={() => {
+                                AsyncStorage.setItem('id1040', this.state.FormID.toString());
+                                this.props.navigation.navigate("view1099list");
+
+                            }}
+                            color={nowTheme.COLORS.HEADER}
+                        >
+                            W2 Form: {this.state.countW2}
+                        </Text>
+
+                     
+                    </View>
+                </TouchableOpacity>
             </Block>
         );
     };
@@ -384,6 +411,46 @@ const styles = StyleSheet.create({
     },
     group: {
         paddingTop: theme.SIZES.BASE * 2
+    },
+    card: {
+        flexDirection: 'column',
+        marginHorizontal: 10,
+        marginVertical: 2,
+        flexBasis: '27%',
+        marginTop: 20,
+        borderRadius: 10
+    },
+    cardFooter: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        paddingTop: 12.5,
+        paddingBottom: 25,
+        paddingHorizontal: 16,
+        borderBottomLeftRadius: 1,
+        borderBottomRightRadius: 1,
+    },
+    title: {
+        fontFamily: 'montserrat-regular',
+        fontSize: 20,
+        flex: 1,
+        color: "#FFFFFF",
+        fontWeight: '500'
+    },
+    subTitle: {
+        paddingVertical: 10,
+        fontFamily: 'montserrat-regular',
+        fontSize: 16,
+        flex: 1,
+        color: "#FFFFFF",
+    },
+    cardHeader: {
+        paddingVertical: 17,
+        paddingHorizontal: 16,
+        borderTopLeftRadius: 1,
+        borderTopRightRadius: 1,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center"
     },
     input: {
         paddingTop: 10,

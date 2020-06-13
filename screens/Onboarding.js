@@ -4,7 +4,8 @@ import { Block, theme, Text } from "galio-framework";
 var FloatingLabel = require('react-native-floating-labels');
 import { nowTheme } from '../constants';
 import { Button } from "../components";
-import Spinner from 'react-native-loading-spinner-overlay';
+
+import { FontAwesome, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import * as Device from 'expo-device';
 
 export default class Onboarding extends React.Component {
@@ -83,7 +84,6 @@ export default class Onboarding extends React.Component {
             shadowless
             style={styles.button}
             color={nowTheme.COLORS.PRIMARY}
-            // disabled={this.state.ButtonSubmit}
             onPress={this.Submit.bind(this)}
 
           >
@@ -91,7 +91,7 @@ export default class Onboarding extends React.Component {
               style={{ fontFamily: 'montserrat-bold', fontSize: 14 }}
               color={theme.COLORS.WHITE}
             >
-              CREATE 1044
+              GENERATE 1044
                 </Text>
           </Button>
         </Block>
@@ -167,55 +167,75 @@ export default class Onboarding extends React.Component {
 
         <Block style={{ flex: 0.55 }}>
 
-          <Block style={[styles.card, { backgroundColor: '#008080' }]}>
+          <Block style={[styles.card, { backgroundColor: '#778899' }]}>
             <View style={styles.cardHeader}>
-              <Text style={styles.title}> 1099</Text>
-            </View>
+              <Text style={styles.title}>Form 1099</Text>
 
-            <View style={styles.cardFooter}>
-              <Text onPress={() => this.props.navigation.navigate("Form1099")} style={styles.subTitle}> Add Form</Text>
-              <Text onPress={() => {
+              <MaterialCommunityIcons onPress={() => this.props.navigation.navigate("Form1099")} style={{ marginHorizontal: 14 }} name="plus-circle-outline" size={40} color="white" />
+              <MaterialCommunityIcons onPress={() => {
                 AsyncStorage.setItem('id1040', '0');
                 this.props.navigation.navigate("view1099list");
 
-              }} style={styles.subTitle}> View Form </Text>
+              }} name="eye-circle-outline" size={40} color="white" />
+
+
+
+            </View>
+
+            <View style={styles.cardFooter}>
+              <Text style={styles.subTitle}>Count: {this.state.count1099} </Text>
+
             </View>
 
           </Block>
 
-          <Block style={[styles.card, { backgroundColor: '#008080' }]}>
+          <Block style={[styles.card, { backgroundColor: '#778899' }]}>
             <View style={styles.cardHeader}>
-              <Text style={styles.title}> W2</Text>
-            </View>
+              <Text style={styles.title}>Form W2</Text>
 
-            <View style={styles.cardFooter}>
-              <Text onPress={() => this.props.navigation.navigate("W2")} style={styles.subTitle}> Add Form</Text>
-              <Text onPress={() => {
+              <MaterialCommunityIcons onPress={() => this.props.navigation.navigate("W2")} style={{ marginHorizontal: 14 }} name="plus-circle-outline" size={40} color="white" />
+              <MaterialCommunityIcons onPress={() => {
                 AsyncStorage.setItem('id1040', '0');
                 this.props.navigation.navigate("viewW2list");
 
-              }} style={styles.subTitle}> View Form </Text>
+              }} name="eye-circle-outline" size={40} color="white" />
+
+
+
+            </View>
+
+            <View style={styles.cardFooter}>
+              <Text style={styles.subTitle}>Count: {this.state.countW2} </Text>
+
             </View>
 
           </Block>
 
-          <TouchableOpacity style={[styles.card, { backgroundColor: '#008080' }]} onPress={() => this.props.navigation.navigate("view1040list")}>
+          <Block style={[styles.card, { backgroundColor: '#778899' }]}>
             <View style={styles.cardHeader}>
-              <Text style={styles.title}>View Forms</Text>
-              <Image style={styles.icon} source={{ uri: "https://img.icons8.com/ios/40/000000/settings.png" }} />
+              <Text style={styles.title}> View Form 1040</Text>
+
+              <MaterialCommunityIcons onPress={() => {
+                this.props.navigation.navigate("view1040list");
+
+              }} name="eye-circle-outline" size={40} color="white" />
+
+
+
             </View>
 
             <View style={styles.cardFooter}>
-              <Text style={styles.subTitle}> Proceed </Text>
+              {/* <Text style={styles.subTitle}>Count: {this.state.countW2} </Text> */}
+
             </View>
-          </TouchableOpacity>
+
+          </Block>
+ 
 
         </Block>
 
         <Block style={{ flex: 0.35 }}>
 
-          {this.renderheading()}
-          {this.renderCounts()}
 
         </Block>
 
@@ -236,14 +256,17 @@ const styles = StyleSheet.create({
     paddingTop: theme.SIZES.BASE * 2
   },
   button: {
-    backgroundColor: "#008080",
-    color: "white"
+    backgroundColor: "orange",
+    color: "white",
+    borderRadius:10
   },
   card: {
-    marginHorizontal: 2,
+    flexDirection:'column',
+    marginHorizontal: 10,
     marginVertical: 2,
-    flexBasis: '30%',
-    marginTop: 10
+    flexBasis: '35%',
+    marginTop: 20,
+    borderRadius: 10
   },
   container: {
     flex: 1,
@@ -263,7 +286,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 12.5,
     paddingBottom: 25,
-    paddingHorizontal: 16,
+    paddingHorizontal: 19,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
   },
@@ -273,10 +296,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'montserrat-regular',
-    fontSize: 26,
+    fontSize: 20,
     flex: 1,
     color: "#FFFFFF",
-    fontWeight: '500'
+    // fontWeight: '500',
   },
   subTitle: {
     fontFamily: 'montserrat-regular',
@@ -285,10 +308,11 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   cardHeader: {
-    paddingVertical: 17,
+    // paddingVertical: 20,
+    marginTop: 24,
     paddingHorizontal: 16,
-    borderTopLeftRadius: 1,
-    borderTopRightRadius: 1,
+    // borderTopLeftRadius: 1,
+    // borderTopRightRadius: 1,
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center"
