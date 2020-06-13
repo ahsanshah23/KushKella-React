@@ -314,7 +314,7 @@ class view1040 extends React.Component {
                             }}
                             onPress={() => {
                                 AsyncStorage.setItem('id1040', this.state.FormID.toString());
-                                this.props.navigation.navigate("view1099list");
+                                this.props.navigation.navigate("viewW2list");
 
                             }}
                             color={nowTheme.COLORS.HEADER}
